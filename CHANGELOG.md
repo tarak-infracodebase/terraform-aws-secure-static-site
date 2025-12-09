@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-12-08
+
+### Fixed
+
+- **Missing Variable for Existing Route 53 Zone**: Added `existing_route53_zone_id` variable to support using an existing Route 53 hosted zone when `enable_domain = true` and `create_route53_zone = false`. Previously, the module would fail with "Missing required argument" error when trying to use an existing zone.
+
+### Added
+
+- **Variable Validation**: Added validation to ensure `existing_route53_zone_id` is provided when using an existing Route 53 zone (when `enable_domain = true` and `create_route53_zone = false`)
+
+### Changed
+
+- **DNS Module Integration**: Updated root module to pass `existing_route53_zone_id` to the DNS module instead of hardcoded `null` value
+
 ## [1.0.0] - 2025-12-08
 
 ### Added
@@ -57,4 +71,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lessons learned section covering S3 encryption behavior and KMS limitations
 - Example configuration demonstrating basic usage
 
+[1.0.1]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.1
 [1.0.0]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.0

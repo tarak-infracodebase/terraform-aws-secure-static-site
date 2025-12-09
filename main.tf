@@ -115,7 +115,7 @@ module "dns" {
   domain_name                     = var.domain_name
   alternate_domain_names          = var.alternate_domain_names
   create_hosted_zone              = var.create_route53_zone
-  existing_zone_id                = null
+  existing_zone_id                = var.existing_route53_zone_id
   cloudfront_distribution_domain  = module.cloudfront.distribution_domain_name
   cloudfront_distribution_zone_id = module.cloudfront.distribution_hosted_zone_id
   tags                            = var.tags
