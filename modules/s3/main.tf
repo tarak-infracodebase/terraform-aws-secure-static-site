@@ -306,6 +306,21 @@ resource "aws_s3_bucket_policy" "website_primary" {
             "AWS:SourceArn" = var.cloudfront_distribution_arn
           }
         }
+      },
+      {
+        Sid    = "DenyInsecureTransport"
+        Effect = "Deny"
+        Principal = "*"
+        Action   = "s3:*"
+        Resource = [
+          "${aws_s3_bucket.website_primary.arn}/*",
+          aws_s3_bucket.website_primary.arn
+        ]
+        Condition = {
+          Bool = {
+            "aws:SecureTransport" = "false"
+          }
+        }
       }
     ]
   })
@@ -332,6 +347,21 @@ resource "aws_s3_bucket_policy" "website_failover" {
         Condition = {
           StringEquals = {
             "AWS:SourceArn" = var.cloudfront_distribution_arn
+          }
+        }
+      },
+      {
+        Sid    = "DenyInsecureTransport"
+        Effect = "Deny"
+        Principal = "*"
+        Action   = "s3:*"
+        Resource = [
+          "${aws_s3_bucket.website_failover.arn}/*",
+          aws_s3_bucket.website_failover.arn
+        ]
+        Condition = {
+          Bool = {
+            "aws:SecureTransport" = "false"
           }
         }
       }

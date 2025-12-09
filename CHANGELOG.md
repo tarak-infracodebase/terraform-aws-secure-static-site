@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2025-12-08
+
+### Added
+
+- **Deny Insecure Transport Policy**: Added S3 bucket policy statement to deny all HTTP (non-SSL) traffic to website buckets. This enforces HTTPS-only access at the bucket level, providing defense-in-depth security alongside CloudFront's HTTPS enforcement.
+
+### Security
+
+- **Enhanced Transport Security**: S3 bucket policies now explicitly deny any requests made over HTTP, ensuring all S3 API calls must use HTTPS/TLS. This meets compliance requirements for secure transport and prevents accidental insecure access.
+
 ## [1.0.3] - 2025-12-08
 
 ### Added
@@ -92,6 +102,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lessons learned section covering S3 encryption behavior and KMS limitations
 - Example configuration demonstrating basic usage
 
+[1.0.4]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.4
 [1.0.3]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.3
 [1.0.2]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.2
 [1.0.1]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.1
