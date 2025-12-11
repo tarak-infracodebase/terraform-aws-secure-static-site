@@ -72,6 +72,12 @@ variable "content_security_policy" {
   default     = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'none';"
 }
 
+variable "enable_spa_routing" {
+  type        = bool
+  description = "Enable SPA routing by redirecting 404 errors to index.html (required for React, Vue, Angular, Docusaurus, etc.)"
+  default     = false
+}
+
 variable "tags" {
   type        = map(string)
   description = "Tags to apply to resources"

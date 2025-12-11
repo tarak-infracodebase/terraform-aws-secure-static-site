@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2025-12-10
+
+### Added
+
+- **Single Page Application (SPA) Routing Support**: Added `enable_spa_routing` variable to support client-side routing for modern web frameworks. When enabled, CloudFront redirects 404 and 403 errors to `/index.html` with 200 status code.
+- **Framework Compatibility**: Full support for React Router, Vue Router, Angular Router, Docusaurus, and other client-side routing frameworks that require fallback to index.html.
+- **Custom Error Pages**: Configurable CloudFront custom error responses for 404 and 403 status codes when SPA routing is enabled.
+
+### Changed
+
+- **CloudFront Distribution**: Added dynamic `custom_error_response` blocks that activate when `enable_spa_routing = true`.
+- **Documentation**: Updated README with SPA routing section explaining the feature and framework compatibility.
+- **Example Configuration**: Added SPA routing example in README showing how to enable for Docusaurus and other frameworks.
+
+### Technical Details
+
+- **Backward Compatible**: SPA routing is disabled by default (`enable_spa_routing = false`) to maintain existing behavior.
+- **Error Handling**: Both 404 (Not Found) and 403 (Forbidden) errors redirect to `/index.html` to handle various S3 access scenarios.
+- **Status Code Preservation**: Returns 200 status code with index.html content to prevent browser error pages while allowing JavaScript routers to handle URLs.
+
 ## [1.0.6] - 2025-12-10
 
 ### Fixed
@@ -128,6 +148,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lessons learned section covering S3 encryption behavior and KMS limitations
 - Example configuration demonstrating basic usage
 
+[1.0.7]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.7
 [1.0.6]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.6
 [1.0.5]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.5
 [1.0.4]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.4

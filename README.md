@@ -97,6 +97,16 @@ When `enable_security_headers = true` (default), CloudFront adds the following h
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **Content-Security-Policy**: `default-src 'self'`
 
+### Single Page Application (SPA) Routing
+
+When `enable_spa_routing = true`, CloudFront is configured to support client-side routing for modern web frameworks:
+
+- **404 Error Handling**: Redirects 404 errors to `/index.html` with 200 status code
+- **403 Error Handling**: Redirects 403 errors to `/index.html` with 200 status code
+- **Framework Support**: Required for React Router, Vue Router, Angular Router, Docusaurus, and other client-side routing
+
+This allows URLs like `https://example.com/docs/getting-started` to work correctly when users navigate directly to them or refresh the page.
+
 ### High Availability
 
 - **Multi-Region**: S3 buckets in two configurable AWS regions
@@ -130,6 +140,7 @@ module "static_website" {
   enable_failover         = true
   enable_replication      = true
   enable_security_headers = true
+  enable_spa_routing      = true  # Enable for Docusaurus, React, Vue, Angular
 
   tags = {
     Environment = "production"
@@ -209,6 +220,7 @@ module "static_website" {
 | enable_failover         | Enable multi-region failover                                                          | bool         | true                          | no       |
 | enable_replication      | Enable S3 cross-region replication                                                    | bool         | true                          | no       |
 | enable_security_headers | Enable CloudFront response headers policy with security headers                       | bool         | true                          | no       |
+| enable_spa_routing      | Enable SPA routing by redirecting 404/403 errors to index.html (for React, Vue, Angular, Docusaurus) | bool         | false                         | no       |
 
 ### Recommended Region Pairs
 

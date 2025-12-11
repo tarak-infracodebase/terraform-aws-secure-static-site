@@ -99,6 +99,7 @@ module "cloudfront" {
   domain_aliases                = var.enable_domain ? concat([var.domain_name], var.alternate_domain_names) : []
   enable_security_headers       = var.enable_security_headers
   content_security_policy       = var.content_security_policy
+  enable_spa_routing            = var.enable_spa_routing
   tags                          = var.tags
 }
 

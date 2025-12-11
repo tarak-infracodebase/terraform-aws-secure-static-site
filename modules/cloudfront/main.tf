@@ -149,6 +149,27 @@ resource "aws_cloudfront_distribution" "main" {
     }
   }
 
+  # Custom Error Pages for SPA Routing
+  dynamic "custom_error_response" {
+    for_each = var.enable_spa_routing ? [1] : []
+
+    content {
+      error_code         = 404
+      response_code      = 200
+      response_page_path = "/index.html"
+    }
+  }
+
+  dynamic "custom_error_response" {
+    for_each = var.enable_spa_routing ? [1] : []
+
+    content {
+      error_code         = 403
+      response_code      = 200
+      response_page_path = "/index.html"
+    }
+  }
+
   # Restrictions
   restrictions {
     geo_restriction {
