@@ -57,6 +57,10 @@ resource "aws_cloudfront_response_headers_policy" "security_headers" {
       override                = true
     }
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 
@@ -153,4 +157,8 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   tags = var.tags
+
+  depends_on = [
+    aws_cloudfront_response_headers_policy.security_headers
+  ]
 }

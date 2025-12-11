@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2025-12-10
+
+### Fixed
+
+- **CloudFront Response Headers Policy Deletion Error**: Fixed Terraform destroy operation failing with "ResponseHeadersPolicyInUse" error (StatusCode: 409). Added proper resource dependencies and lifecycle management to ensure CloudFront distribution is destroyed before the response headers policy.
+
+### Changed
+
+- **Resource Destruction Order**: Added `depends_on` attribute to CloudFront distribution to explicitly depend on response headers policy, ensuring proper cleanup sequence during `terraform destroy`.
+- **Response Headers Policy Lifecycle**: Added `create_before_destroy = true` lifecycle rule to response headers policy for smoother updates and replacements.
+
 ## [1.0.5] - 2025-12-08
 
 ### Added
@@ -117,6 +128,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lessons learned section covering S3 encryption behavior and KMS limitations
 - Example configuration demonstrating basic usage
 
+[1.0.6]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.6
 [1.0.5]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.5
 [1.0.4]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.4
 [1.0.3]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.3
