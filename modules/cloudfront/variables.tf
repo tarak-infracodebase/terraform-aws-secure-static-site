@@ -90,6 +90,12 @@ variable "ignore_alias_conflicts" {
   default     = false
 }
 
+variable "cache_control_header" {
+  type        = string
+  description = "Cache-Control header value to add to all responses"
+  default     = "no-cache, no-store, must-revalidate"
+}
+
 variable "tags" {
   type        = map(string)
   description = "Tags to apply to resources"

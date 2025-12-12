@@ -122,4 +122,10 @@ variable "ignore_alias_conflicts" {
   default     = false
 }
 
+variable "cache_control_header" {
+  type        = string
+  description = "Cache-Control header value to add to all responses from CloudFront"
+  default     = "no-cache, no-store, must-revalidate"
+}
+
 

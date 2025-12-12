@@ -58,6 +58,14 @@ resource "aws_cloudfront_response_headers_policy" "security_headers" {
     }
   }
 
+  custom_headers_config {
+    items {
+      header   = "Cache-Control"
+      value    = var.cache_control_header
+      override = true
+    }
+  }
+
   lifecycle {
     create_before_destroy = true
   }

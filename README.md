@@ -96,6 +96,7 @@ When `enable_security_headers = true` (default), CloudFront adds the following h
 - **X-XSS-Protection**: `1; mode=block`
 - **Referrer-Policy**: `strict-origin-when-cross-origin`
 - **Content-Security-Policy**: `default-src 'self'`
+- **Cache-Control**: `no-cache, no-store, must-revalidate` (configurable)
 
 ### Single Page Application (SPA) Routing
 
@@ -106,6 +107,26 @@ When `enable_spa_routing = true`, CloudFront is configured to support client-sid
 - **Framework Support**: Required for React Router, Vue Router, Angular Router, Docusaurus, and other client-side routing
 
 This allows URLs like `https://example.com/docs/getting-started` to work correctly when users navigate directly to them or refresh the page.
+
+### Cache Control Headers
+
+The module automatically adds Cache-Control headers to all responses:
+
+- **Default**: `Cache-Control: no-cache, no-store, must-revalidate`
+- **Purpose**: Prevents browser and proxy caching for dynamic content
+- **Configurable**: Can be customized via the `cache_control_header` variable
+
+**Custom Cache-Control Example:**
+```hcl
+module "website" {
+  source = "./path/to/module"
+  
+  # Custom cache control for static assets
+  cache_control_header = "public, max-age=31536000, immutable"
+  
+  # ... other variables
+}
+```
 
 ### High Availability
 
@@ -144,6 +165,7 @@ module "static_website" {
   enable_replication      = true
   enable_security_headers = true
   enable_spa_routing      = true   # Enable for Docusaurus, React, Vue, Angular
+  cache_control_header    = "no-cache, no-store, must-revalidate"  # Default value
 
   tags = {
     Environment = "production"
@@ -237,6 +259,7 @@ module "static_website" {
 | enable_spa_routing      | Enable SPA routing by redirecting 404/403 errors to index.html (for React, Vue, Angular, Docusaurus) | bool         | false                         | no       |
 | wait_for_deployment     | Wait for CloudFront distribution deployment to complete (can be disabled for faster applies)          | bool         | true                          | no       |
 | ignore_alias_conflicts  | Temporarily disable domain aliases to avoid CNAME conflicts during updates                            | bool         | false                         | no       |
+| cache_control_header     | Cache-Control header value to add to all responses from CloudFront                                    | string       | "no-cache, no-store, must-revalidate" | no       |
 
 
 ### Recommended Region Pairs

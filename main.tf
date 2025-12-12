@@ -102,6 +102,7 @@ module "cloudfront" {
   enable_spa_routing            = var.enable_spa_routing
   wait_for_deployment           = var.wait_for_deployment
   ignore_alias_conflicts        = var.ignore_alias_conflicts
+  cache_control_header          = var.cache_control_header
   tags                          = var.tags
 }
 

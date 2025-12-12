@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.11] - 2025-12-10
+
+### Added
+
+- **Cache-Control Headers**: Added configurable Cache-Control headers to all CloudFront responses via the response headers policy. Default value is `"no-cache, no-store, must-revalidate"` to prevent unwanted caching.
+- **Cache Control Configuration**: Added `cache_control_header` variable to allow customization of cache behavior for different use cases (static assets, dynamic content, etc.).
+- **Custom Headers Support**: Enhanced CloudFront response headers policy with `custom_headers_config` block to support additional HTTP headers.
+
+### Changed
+
+- **Response Headers Policy**: Extended the existing security headers policy to include custom Cache-Control headers alongside security headers.
+- **Documentation**: Added comprehensive Cache-Control configuration section with examples for different caching strategies.
+
+### Technical Details
+
+- **Default Behavior**: Prevents browser and proxy caching with `no-cache, no-store, must-revalidate` header by default.
+- **Flexibility**: Easily configurable for different scenarios (long-term caching for static assets, short-term caching, or no caching).
+- **Override Capability**: Cache-Control header is set with `override = true` to ensure consistent application regardless of origin headers.
+- **Integration**: Seamlessly integrated with existing security headers policy without breaking changes.
+
+### Examples
+
+- **No Caching (Default)**: `cache_control_header = "no-cache, no-store, must-revalidate"`
+- **Static Assets**: `cache_control_header = "public, max-age=31536000, immutable"`
+- **Short Cache**: `cache_control_header = "public, max-age=300"`
+
 ## [1.0.10] - 2025-12-10
 
 ### Fixed
@@ -216,6 +242,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lessons learned section covering S3 encryption behavior and KMS limitations
 - Example configuration demonstrating basic usage
 
+[1.0.11]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.11
 [1.0.10]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.10
 [1.0.9]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.9
 [1.0.8]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.8
