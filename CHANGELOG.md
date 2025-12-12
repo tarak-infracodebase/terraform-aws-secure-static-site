@@ -5,40 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.16] - 2025-12-12
-
-### Added
-
-- **WWW Subdomain Support**: Automatically includes `www.<domain>` as a CloudFront domain alias when custom domain is enabled. Both the primary domain and www subdomain now work seamlessly with the same CloudFront distribution.
-- **WWW DNS Records**: Added Route 53 A and AAAA records for www subdomain pointing to CloudFront distribution, ensuring both `example.com` and `www.example.com` resolve correctly.
-- **ACM Certificate WWW Coverage**: ACM certificate now automatically includes `www.<domain>` in Subject Alternative Names for complete SSL coverage.
-
-### Changed
-
-- **CloudFront Domain Aliases**: Re-enabled CloudFront domain aliases to include both primary domain and www subdomain when custom domain is enabled, providing proper SSL termination at CloudFront edge.
-- **ACM Certificate Integration**: CloudFront now uses the validated ACM certificate for custom domain SSL, ensuring secure HTTPS connections for both primary and www domains.
-
-### Technical Details
-
-- **Automatic WWW Support**: When `enable_domain = true`, both `domain.com` and `www.domain.com` are automatically configured without additional user configuration.
-- **SSL Coverage**: Single ACM certificate covers both primary domain and www subdomain with proper CloudFront integration.
-- **DNS Resolution**: Both A and AAAA records created for www subdomain to support IPv4 and IPv6 connectivity.
-
 ## [1.0.15] - 2025-12-12
-
-### Fixed
-
-- **CloudFront CNAME Conflicts**: Fixed "CNAMEAlreadyExists" error by removing all domain aliases from CloudFront distribution. CloudFront now uses its default domain (e.g., `d1234567890.cloudfront.net`) while Route 53 A/AAAA records handle custom domain routing.
-
-### Changed
-
-- **Simplified Domain Architecture**: Removed CloudFront custom domain aliases and ACM certificate usage. Custom domains are now handled entirely through Route 53 A/AAAA records pointing to the CloudFront default domain, eliminating CNAME conflicts and certificate complexity.
-- **No ACM Certificate Required**: CloudFront no longer requires custom SSL certificates since it uses the default CloudFront domain with AWS-managed certificates.
 
 ### Removed
 
-- **CloudFront Domain Aliases**: CloudFront distribution no longer claims custom domains as aliases, preventing conflicts with existing distributions.
-- **CloudFront ACM Certificate**: Removed ACM certificate configuration from CloudFront since custom domains are handled via Route 53 DNS routing.
+- **Ignore Alias Conflicts Workaround**: Removed the `ignore_alias_conflicts` variable and associated workaround logic. The module now uses a cleaner architecture that properly handles domain aliases and SSL certificates.
+
+### Changed
+
+- **Simplified Architecture**: CloudFront distribution now consistently uses domain aliases and ACM certificates when custom domains are enabled, without conditional workarounds.
+- **Cleaner Configuration**: Removed complexity around conflict handling in favor of a straightforward approach where Route 53 ALIAS records point to CloudFront distribution with proper SSL certificate coverage.
+
+### Fixed
+
+- **Architecture Consistency**: Fixed the module architecture to avoid the need for temporary workarounds. CNAME conflicts should be resolved by ensuring no duplicate CloudFront distributions exist for the same domains.
 
 ## [1.0.14] - 2025-12-12
 
@@ -304,7 +284,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lessons learned section covering S3 encryption behavior and KMS limitations
 - Example configuration demonstrating basic usage
 
-[1.0.16]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.16
 [1.0.15]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.15
 [1.0.14]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.14
 [1.0.13]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.13
