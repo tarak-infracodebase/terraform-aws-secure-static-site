@@ -159,25 +159,25 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logs" {
 }
 
 
-# Versioning - Primary Website Bucket
+# Versioning - Primary Website Bucket (Only enabled if replication is enabled)
 resource "aws_s3_bucket_versioning" "website_primary" {
   provider = aws.primary
 
   bucket = aws_s3_bucket.website_primary.id
 
   versioning_configuration {
-    status = "Enabled"
+    status = var.enable_replication ? "Enabled" : "Disabled"
   }
 }
 
-# Versioning - Failover Website Bucket
+# Versioning - Failover Website Bucket (Only enabled if replication is enabled)
 resource "aws_s3_bucket_versioning" "website_failover" {
   provider = aws.failover
 
   bucket = aws_s3_bucket.website_failover.id
 
   versioning_configuration {
-    status = "Enabled"
+    status = var.enable_replication ? "Enabled" : "Disabled"
   }
 }
 

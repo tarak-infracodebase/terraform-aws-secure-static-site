@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.18] - 2025-12-12
+
+### Changed
+
+- **Conditional S3 Versioning**: S3 bucket versioning is now only enabled when replication is enabled. When replication is disabled, versioning is disabled since version control handles file versioning.
+
+### Important Notes
+
+- **S3 Versioning**: Versioning is only enabled when cross-region replication is enabled (AWS requirement). Otherwise, version control handles file versioning.
+
 ## [1.0.17] - 2025-12-12
 
 ### Changed
@@ -331,6 +341,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lessons learned section covering S3 encryption behavior and KMS limitations
 - Example configuration demonstrating basic usage
 
+[1.0.18]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.18
 [1.0.17]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.17
 [1.0.16]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.16
 [1.0.15]: https://github.com/your-org/terraform-aws-static-website/releases/tag/v1.0.15
