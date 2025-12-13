@@ -130,6 +130,12 @@ variable "cache_control_header" {
   default     = "no-cache, no-store, must-revalidate"
 }
 
+variable "enable_intelligent_tiering" {
+  type        = bool
+  description = "Enable S3 Intelligent Tiering for automatic cost optimization (moves infrequently accessed objects to cheaper storage classes)"
+  default     = true
+}
+
 
 
 

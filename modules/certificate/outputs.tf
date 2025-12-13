@@ -1,6 +1,6 @@
 output "certificate_arn" {
   description = "ACM certificate ARN (validated if auto_validate=true, otherwise unvalidated)"
-  value       = var.enabled ? (
+  value = var.enabled ? (
     var.auto_validate ? aws_acm_certificate_validation.main[0].certificate_arn : aws_acm_certificate.main[0].arn
   ) : null
 }

@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2025-12-12
+
+### Added
+
+- **S3 Intelligent Tiering**: Automatic cost optimization for all S3 buckets (website and logs) with configurable tiering schedule
+- **S3 Force Destroy**: Added `force_destroy = true` to logs bucket for consistent cleanup behavior across all buckets
+- **Cost Optimization Documentation**: Added comprehensive cost optimization section explaining intelligent tiering benefits
+
+### Changed
+
+- **CloudFront Price Class Default**: Improved default from `PriceClass_100` to `PriceClass_200` for better global coverage
+- **S3 Tiering Configuration**: Objects automatically move to Archive Access (90 days) and Deep Archive Access (180 days) for cost savings
+
+### Technical Details
+
+- **Intelligent Tiering Schedule**: 30 days → IA, 90 days → Archive Access, 180 days → Deep Archive Access
+- **Cost Savings**: Can reduce storage costs by 40-60% for infrequently accessed content
+- **No Performance Impact**: No retrieval fees for frequent access patterns, automatic optimization
+- **Global Coverage**: PriceClass_200 includes Asia, Middle East, and Africa (excludes only South America and Oceania)
+
+### Configuration
+
+- **New Variable**: `enable_intelligent_tiering` (default: `true`) to control S3 Intelligent Tiering
+- **Backward Compatible**: All existing configurations continue to work without changes
+
 ## [1.1.0] - 2025-12-12
 
 ### Added
@@ -15,6 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Proper Dependency Flow**: Fixed architecture to follow correct dependency chain: Route53 Zone → Certificate → CloudFront → DNS Records
 - **Subdomain Support**: Proper handling of subdomains (e.g., `app.example.com`) without creating invalid `www.app.example.com` records
 - **Certificate Auto-Validation Control**: New `auto_validate_certificate` variable to control whether certificates are validated automatically
+- **S3 Intelligent Tiering**: Automatic cost optimization by moving infrequently accessed objects to cheaper storage classes (90 days → Archive, 180 days → Deep Archive)
+- **S3 Force Destroy**: All buckets now have `force_destroy = true` for easier cleanup during development and testing
+- **Cost Optimization Features**: Intelligent tiering and bucket keys enabled by default for automatic cost savings
 
 ### Changed
 

@@ -79,8 +79,8 @@ resource "aws_cloudfront_distribution" "main" {
   comment             = var.comment
   default_root_object = "index.html"
   price_class         = var.price_class
-  aliases                = var.domain_aliases
-  wait_for_deployment    = var.wait_for_deployment
+  aliases             = var.domain_aliases
+  wait_for_deployment = var.wait_for_deployment
 
   # Primary Origin
   origin {

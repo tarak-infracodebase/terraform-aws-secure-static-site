@@ -172,6 +172,17 @@ module "website" {
 - **Cross-Region Replication**: S3 replication ensures data availability in both regions
 - **Versioning**: S3 versioning enabled on website buckets for replication
 
+### Cost Optimization
+
+- **S3 Intelligent Tiering**: Automatically moves infrequently accessed objects to cheaper storage classes
+  - Objects not accessed for 30 days → Infrequent Access (IA)
+  - Objects not accessed for 90 days → Archive Access
+  - Objects not accessed for 180 days → Deep Archive Access
+  - No retrieval fees for frequent access patterns
+  - Automatic cost optimization without performance impact
+- **S3 Bucket Keys**: Enabled on all buckets to reduce encryption costs by up to 99%
+- **CloudFront Caching**: Reduces origin requests and data transfer costs
+
 ### Encryption Implementation
 
 All S3 buckets use S3-managed encryption (SSE-S3) with AES-256 and S3 Bucket Keys enabled:
@@ -305,6 +316,7 @@ module "static_website" {
 | enable_spa_routing      | Enable SPA routing by redirecting 404/403 errors to index.html (for React, Vue, Angular, Docusaurus) | bool         | false                         | no       |
 | wait_for_deployment     | Wait for CloudFront distribution deployment to complete (can be disabled for faster applies)          | bool         | true                          | no       |
 | cache_control_header     | Cache-Control header value to add to all responses from CloudFront                                    | string       | "no-cache, no-store, must-revalidate" | no       |
+| enable_intelligent_tiering | Enable S3 Intelligent Tiering for automatic cost optimization (moves infrequently accessed objects to cheaper storage classes) | bool         | true                          | no       |
 
 
 ### Recommended Region Pairs
@@ -572,6 +584,16 @@ curl https://my-bucket.s3.amazonaws.com/index.html
 # This should succeed
 curl https://d111111abcdef8.cloudfront.net/index.html
 ```
+
+### Bucket Cleanup and Force Destroy
+
+All S3 buckets are created with `force_destroy = true` for easier cleanup during development and testing:
+
+- **Development/Testing**: `terraform destroy` will automatically delete buckets and all contents
+- **Production**: Consider setting `force_destroy = false` for additional safety
+- **Data Recovery**: Ensure you have backups before destroying production buckets
+
+**Note**: Force destroy will permanently delete all objects, versions, and delete markers in the bucket.
 
 ### CNAME Already Exists Error
 

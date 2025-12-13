@@ -13,7 +13,7 @@ locals {
   # Check if domain is a root domain (no subdomain) by counting dots
   # Root domains like "example.com" have 1 dot, subdomains like "app.example.com" have 2+ dots
   is_root_domain = length(split(".", var.domain_name)) == 2
-  
+
   # Only add www subdomain for root domains, not for existing subdomains
   www_domain = local.is_root_domain ? ["www.${var.domain_name}"] : []
 }

@@ -79,6 +79,7 @@ module "s3" {
   cloudfront_oac_arn          = module.cloudfront.oac_arn
   cloudfront_distribution_arn = module.cloudfront.distribution_arn
   enable_replication          = var.enable_replication
+  enable_intelligent_tiering  = var.enable_intelligent_tiering
   tags                        = var.tags
 }
 
@@ -115,12 +116,12 @@ locals {
     ? file("ERROR: existing_route53_zone_id must be provided when enable_domain is true and create_route53_zone is false")
     : "validation_passed"
   )
-  
+
   # Determine zone ID for certificate validation and DNS records
   zone_id = var.enable_domain ? (
     var.create_route53_zone ? module.dns_zone[0].zone_id : var.existing_route53_zone_id
   ) : null
-  
+
   # Domain aliases for CloudFront - only add www for root domains
   is_root_domain = var.enable_domain ? length(split(".", var.domain_name)) == 2 : false
   domain_aliases = var.enable_domain ? (
@@ -136,8 +137,8 @@ module "dns_zone" {
   enabled                         = true
   domain_name                     = var.domain_name
   create_hosted_zone              = true
-  create_dns_records              = false  # Only create zone, not records
-  create_www_records              = false  # Not creating records in this module
+  create_dns_records              = false # Only create zone, not records
+  create_www_records              = false # Not creating records in this module
   existing_zone_id                = null
   cloudfront_distribution_domain  = ""
   cloudfront_distribution_zone_id = ""
@@ -168,9 +169,9 @@ module "dns_records" {
 
   enabled                         = true
   domain_name                     = var.domain_name
-  create_hosted_zone              = false  # Zone already exists
-  create_dns_records              = true   # Create DNS records
-  create_www_records              = local.is_root_domain  # Only for root domains
+  create_hosted_zone              = false                # Zone already exists
+  create_dns_records              = true                 # Create DNS records
+  create_www_records              = local.is_root_domain # Only for root domains
   existing_zone_id                = local.zone_id
   cloudfront_distribution_domain  = module.cloudfront.distribution_domain_name
   cloudfront_distribution_zone_id = module.cloudfront.distribution_hosted_zone_id
