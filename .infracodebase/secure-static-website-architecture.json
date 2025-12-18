@@ -1,0 +1,209 @@
+{
+  "nodes": [
+    {
+      "id": "users",
+      "label": "Users",
+      "icon": "/icons/aws/general/users.png"
+    },
+    {
+      "id": "route53",
+      "label": "Route 53",
+      "subtitle": "DNS + DNSSEC",
+      "icon": "/icons/aws/network/route-53.png"
+    },
+    {
+      "id": "cloudfront",
+      "label": "CloudFront Distribution",
+      "subtitle": "Global CDN + WAF",
+      "icon": "/icons/aws/network/cloudfront.png"
+    },
+    {
+      "id": "waf",
+      "label": "AWS WAF",
+      "subtitle": "6 Rule Sets",
+      "icon": "/icons/aws/security/waf.png"
+    },
+    {
+      "id": "s3-primary",
+      "label": "S3 Bucket",
+      "subtitle": "Primary Website",
+      "icon": "/icons/aws/storage/simple-storage-service-s3-bucket-with-objects.png"
+    },
+    {
+      "id": "s3-failover",
+      "label": "S3 Bucket",
+      "subtitle": "Failover Website",
+      "icon": "/icons/aws/storage/simple-storage-service-s3-bucket-with-objects.png"
+    },
+    {
+      "id": "s3-logs",
+      "label": "S3 Bucket",
+      "subtitle": "CloudFront Logs",
+      "icon": "/icons/aws/storage/simple-storage-service-s3-bucket-with-objects.png"
+    },
+    {
+      "id": "s3-access",
+      "label": "S3 Bucket",
+      "subtitle": "Access Logs",
+      "icon": "/icons/aws/storage/simple-storage-service-s3-bucket-with-objects.png"
+    },
+    {
+      "id": "s3-cloudtrail",
+      "label": "S3 Bucket",
+      "subtitle": "CloudTrail Logs",
+      "icon": "/icons/aws/storage/simple-storage-service-s3-bucket-with-objects.png"
+    },
+    {
+      "id": "kms-primary",
+      "label": "KMS Key",
+      "subtitle": "Primary Region",
+      "icon": "/icons/aws/security/key-management-service.png"
+    },
+    {
+      "id": "kms-failover",
+      "label": "KMS Key",
+      "subtitle": "Failover Region",
+      "icon": "/icons/aws/security/key-management-service.png"
+    },
+    {
+      "id": "cloudtrail",
+      "label": "CloudTrail",
+      "subtitle": "API Monitoring",
+      "icon": "/icons/aws/management/cloudtrail.png"
+    },
+    {
+      "id": "cloudwatch",
+      "label": "CloudWatch",
+      "subtitle": "Log Analytics",
+      "icon": "/icons/aws/management/cloudwatch.png"
+    },
+    {
+      "id": "sns",
+      "label": "SNS Topics",
+      "subtitle": "Event Notifications",
+      "icon": "/icons/aws/integration/simple-notification-service-sns.png"
+    }
+  ],
+  "edges": [
+    {
+      "id": "users-cf",
+      "source": "users",
+      "target": "cloudfront",
+      "label": "HTTPS requests"
+    },
+    {
+      "id": "cf-waf",
+      "source": "cloudfront",
+      "target": "waf",
+      "label": "protected by"
+    },
+    {
+      "id": "cf-s3p",
+      "source": "cloudfront",
+      "target": "s3-primary",
+      "label": "serves from"
+    },
+    {
+      "id": "cf-s3f",
+      "source": "cloudfront",
+      "target": "s3-failover",
+      "label": "fails over to"
+    },
+    {
+      "id": "r53-cf",
+      "source": "route53",
+      "target": "cloudfront",
+      "label": "routes to"
+    },
+    {
+      "id": "cf-logs",
+      "source": "cloudfront",
+      "target": "s3-logs",
+      "label": "logs to"
+    },
+    {
+      "id": "s3p-access",
+      "source": "s3-primary",
+      "target": "s3-access",
+      "label": "access logs"
+    },
+    {
+      "id": "s3f-access",
+      "source": "s3-failover",
+      "target": "s3-access",
+      "label": "access logs"
+    },
+    {
+      "id": "ct-s3ct",
+      "source": "cloudtrail",
+      "target": "s3-cloudtrail",
+      "label": "logs to"
+    },
+    {
+      "id": "ct-cw",
+      "source": "cloudtrail",
+      "target": "cloudwatch",
+      "label": "streams to"
+    },
+    {
+      "id": "s3p-kms1",
+      "source": "s3-primary",
+      "target": "kms-primary",
+      "label": "encrypted by"
+    },
+    {
+      "id": "s3f-kms2",
+      "source": "s3-failover",
+      "target": "kms-failover",
+      "label": "encrypted by"
+    },
+    {
+      "id": "s3l-kms1",
+      "source": "s3-logs",
+      "target": "kms-primary",
+      "label": "encrypted by"
+    },
+    {
+      "id": "s3a-kms1",
+      "source": "s3-access",
+      "target": "kms-primary",
+      "label": "encrypted by"
+    },
+    {
+      "id": "s3ct-kms1",
+      "source": "s3-cloudtrail",
+      "target": "kms-primary",
+      "label": "encrypted by"
+    },
+    {
+      "id": "s3p-sns",
+      "source": "s3-primary",
+      "target": "sns",
+      "label": "notifies"
+    },
+    {
+      "id": "s3f-sns",
+      "source": "s3-failover",
+      "target": "sns",
+      "label": "notifies"
+    },
+    {
+      "id": "s3l-sns",
+      "source": "s3-logs",
+      "target": "sns",
+      "label": "notifies"
+    },
+    {
+      "id": "s3a-sns",
+      "source": "s3-access",
+      "target": "sns",
+      "label": "notifies"
+    },
+    {
+      "id": "s3ct-sns",
+      "source": "s3-cloudtrail",
+      "target": "sns",
+      "label": "notifies"
+    }
+  ]
+}
